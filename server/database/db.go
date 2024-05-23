@@ -36,7 +36,6 @@ func (q *Queries) WithTx(tx pgx.Tx) *Queries {
 
 func StartConnection(ctx context.Context) (*pgx.Conn, error){
   err := godotenv.Load("../.ENV")
-
   if err!=nil{
     return nil, fmt.Errorf("Unable to get environment variables")
   }

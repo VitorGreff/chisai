@@ -5,19 +5,17 @@ import (
 	"net/http"
 
 	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
 )
 
 func main() {
 	e := echo.New()
+	e.Use(middleware.LoggerWithConfig(middleware.LoggerConfig{
+		Format: "method=${method}, uri=${uri}, status=${status}\n",
+	}))
 
 	e.GET("/hello", func(c echo.Context) error { return c.JSON(http.StatusOK, "Hello, chisai!") })
-	e.POST("/chisai", func(c echo.Context) error {
-		url, err := controllers.ShortenURL(c)
-		if err != nil {
-			return c.JSON(http.StatusBadRequest, err.Error())
-		}
-		return c.JSON(http.StatusOK, url)
-	})
+	e.POST("/shorten", func(c echo.Context) error { return controllers.HandleShortenRequest(c)})
 
 	e.Start(":8080")
 }

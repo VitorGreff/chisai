@@ -1,4 +1,4 @@
-package urlhandlers
+package services
 
 import "math/rand"
 

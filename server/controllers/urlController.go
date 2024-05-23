@@ -1,10 +1,11 @@
 package controllers
 
 import (
-	"chisai/database"
-	urlhandlers "chisai/urlHandlers"
-	"context"
+	"chisai/repositories"
+	"chisai/services"
+	"errors"
 	"fmt"
+	"net/http"
 
 	"github.com/labstack/echo/v4"
 )
@@ -13,34 +14,23 @@ type Url struct {
 	Long_url string `json:"url"`
 }
 
-func ShortenURL(c echo.Context) (string, error) {
+func HandleShortenRequest(c echo.Context) error {
 	var body Url
 
-	if err := c.Bind(&body); err != nil  {
-    return "", fmt.Errorf("Invalid URL provided. ERR: %v", err)
+	if err := c.Bind(&body); err != nil {
+		return c.JSON(http.StatusBadRequest, fmt.Sprintf("ERR: invalid request -> %s", err.Error()))
 	}
 
-  if body.Long_url == ""{
-    return "", fmt.Errorf("Empty URL.")
-  }
+	if body.Long_url == "" {
+		return c.JSON(http.StatusBadRequest, errors.New("ERR: field [url] not provided").Error())
+	}
 
-	shortnedUrl := fmt.Sprintf("http://localhost:8080/%s", urlhandlers.GenerateShortString(6))
+	shortnedUrl := fmt.Sprintf("http://localhost:8080/%s", services.GenerateShortString(6))
 
-	ctx := context.Background()
-
-	conn, err := database.StartConnection(ctx)
+	dbUrl, err := repositories.SaveURLs(body.Long_url, shortnedUrl)
 	if err != nil {
-		return "", err
+		return c.JSON(http.StatusInternalServerError, fmt.Errorf("ERR: failed to persist data -> %v", err))
 	}
 
-	query := database.New(conn)
-	_, err = query.CreateLink(ctx, database.CreateLinkParams{
-		LongUrl:  body.Long_url,
-		ShortUrl: shortnedUrl,
-	})
-	if err != nil {
-		return "", fmt.Errorf("ERR writing data on db.")
-	}
-
-	return shortnedUrl, nil
+	return c.JSON(http.StatusOK, dbUrl)
 }
