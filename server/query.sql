@@ -17,3 +17,6 @@ RETURNING *;
 -- name: DeleteLink :exec
 DELETE FROM urls
 WHERE short_url = $1;
+
+-- name: DeleteAllLinks :exec
+DELETE FROM urls;

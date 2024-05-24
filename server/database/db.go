@@ -5,45 +5,28 @@
 package database
 
 import (
-  "context"
-  "fmt"
-  "os"
+	"context"
 
-  "github.com/Valgard/godotenv"
-  "github.com/jackc/pgx/v5"
-  "github.com/jackc/pgx/v5/pgconn"
+	"github.com/jackc/pgx/v5"
+	"github.com/jackc/pgx/v5/pgconn"
 )
 
 type DBTX interface {
-  Exec(context.Context, string, ...interface{}) (pgconn.CommandTag, error)
-  Query(context.Context, string, ...interface{}) (pgx.Rows, error)
-  QueryRow(context.Context, string, ...interface{}) pgx.Row
+	Exec(context.Context, string, ...interface{}) (pgconn.CommandTag, error)
+	Query(context.Context, string, ...interface{}) (pgx.Rows, error)
+	QueryRow(context.Context, string, ...interface{}) pgx.Row
 }
 
 func New(db DBTX) *Queries {
-  return &Queries{db: db}
+	return &Queries{db: db}
 }
 
 type Queries struct {
-  db DBTX
+	db DBTX
 }
 
 func (q *Queries) WithTx(tx pgx.Tx) *Queries {
-  return &Queries{
-    db: tx,
-  }
-}
-
-func StartConnection(ctx context.Context) (*pgx.Conn, error){
-  err := godotenv.Load("../.ENV")
-  if err!=nil{
-    return nil, fmt.Errorf("Unable to get environment variables")
-  }
-
-  conn, err := pgx.Connect(ctx, fmt.Sprintf("postgres://%s:%s@localhost:%s/%s",os.Getenv("POSTGRES_USER"), os.Getenv("POSTGRES_PASSWORD"), os.Getenv("POSTGRES_PORT"), os.Getenv("POSTGRES_DBNAME")))
-
-  if err!=nil{
-    return nil, fmt.Errorf("Unable to establish connection.")
-  }
-  return conn, nil
+	return &Queries{
+		db: tx,
+	}
 }

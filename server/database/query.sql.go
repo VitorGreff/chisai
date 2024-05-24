@@ -30,6 +30,15 @@ func (q *Queries) CreateLink(ctx context.Context, arg CreateLinkParams) (Url, er
 	return i, err
 }
 
+const deleteAllLinks = `-- name: DeleteAllLinks :exec
+DELETE FROM urls
+`
+
+func (q *Queries) DeleteAllLinks(ctx context.Context) error {
+	_, err := q.db.Exec(ctx, deleteAllLinks)
+	return err
+}
+
 const deleteLink = `-- name: DeleteLink :exec
 DELETE FROM urls
 WHERE short_url = $1

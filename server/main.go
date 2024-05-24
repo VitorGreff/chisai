@@ -2,7 +2,6 @@ package main
 
 import (
 	"chisai/controllers"
-	"net/http"
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
@@ -11,11 +10,11 @@ import (
 func main() {
 	e := echo.New()
 	e.Use(middleware.LoggerWithConfig(middleware.LoggerConfig{
-		Format: "method=${method}, uri=${uri}, status=${status}\n",
+		Format: "method=${method}, ip=${remote_ip}, uri=${uri}, status=${status}\n",
 	}))
-
-	e.GET("/hello", func(c echo.Context) error { return c.JSON(http.StatusOK, "Hello, chisai!") })
+  e.GET("/", func(c echo.Context) error {return controllers.GetURLs(c)})
 	e.POST("/shorten", func(c echo.Context) error { return controllers.HandleShortenRequest(c)})
+  e.DELETE("/", func(c echo.Context) error {return controllers.ClearDatabase(c)})
 
 	e.Start(":8080")
 }
