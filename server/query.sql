@@ -2,6 +2,10 @@
 SELECT * FROM urls
 WHERE long_url = $1 LIMIT 1;
 
+-- name: GetLongURL :one
+SELECT long_url FROM urls
+WHERE short_url = $1 LIMIT 1;
+
 -- name: ListLinks :many
 SELECT * FROM urls
 ORDER BY long_url;

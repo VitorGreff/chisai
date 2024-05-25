@@ -61,6 +61,18 @@ func (q *Queries) GetLink(ctx context.Context, longUrl string) (Url, error) {
 	return i, err
 }
 
+const getLongURL = `-- name: GetLongURL :one
+SELECT long_url FROM urls
+WHERE short_url = $1 LIMIT 1
+`
+
+func (q *Queries) GetLongURL(ctx context.Context, shortUrl string) (string, error) {
+	row := q.db.QueryRow(ctx, getLongURL, shortUrl)
+	var long_url string
+	err := row.Scan(&long_url)
+	return long_url, err
+}
+
 const listLinks = `-- name: ListLinks :many
 SELECT id, long_url, short_url FROM urls
 ORDER BY long_url

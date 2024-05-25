@@ -23,6 +23,24 @@ func GetURL(long_url string) (database.Url, error) {
 	return existingUrl, nil
 }
 
+func GetLongURL(short_url string) (string, error) {
+	ctx := context.Background()
+
+	conn, err := database.StartConnection(ctx)
+	if err != nil {
+		return "", err
+	}
+	defer conn.Close(ctx)
+
+	query := database.New(conn)
+	long_url, err := query.GetLongURL(ctx, short_url)
+	if err != nil {
+		return "", err
+	}
+
+	return long_url, nil
+}
+
 func GetURLs() ([]database.Url, error) {
 	ctx := context.Background()
 
