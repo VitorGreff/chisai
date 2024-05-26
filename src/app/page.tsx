@@ -10,19 +10,34 @@ const roboto = Roboto({ weight: '300', subsets: ['latin'] })
 export default function Home() {
   const [longURL, setLongURL] = useState<string>('')
   const [shortUrl, setShortUrl] = useState<string>('')
+  const [error, setError] = useState<String>('')
 
   const fetchShortnedUrl = async () => {
-    const request = await fetch('http://localhost:8080/shorten', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ url: longURL })
-    })
+    try {
+      const response = await fetch('http://localhost:8080/shorten', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ url: longURL })
+      })
 
-    const data = await request.json()
-    console.log(data.ShortUrl)
-    setShortUrl(data.ShortUrl)
+      if (!response.ok){
+        const errorText = await response.text()
+        throw new Error(errorText)
+      }
+
+      const data = await response.json()
+      setShortUrl(data.ShortUrl)
+      setError('')
+      console.log(shortUrl)
+    }
+
+    catch (error: any) {
+      console.log("There was a issue fetching data from the server: ")
+      setError(error.message)
+      setShortUrl('')
+    }
   }
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -43,12 +58,12 @@ export default function Home() {
 
         <div className='flex gap-4 mb-8'>
           <input type="text" name="urlInput" id="1" placeholder=' Insert your URL here'
-            className='bg-zinc-800 w-[90%] p-5 border border-gray-400 rounded-md text-white hover:border-white'
+            className='bg-zinc-800 w-[85%] p-5 border border-gray-400 rounded-md text-white hover:border-white'
             onChange={handleInput}
           >
           </input>
           <button
-            className='flex items-center justify-center bg-zinc-800 w-[10%] p-5 border border-gray-400 rounded-md text-white
+            className='flex items-center justify-center bg-zinc-800 w-[15%] p-5 border border-gray-400 rounded-md text-white
             hover:border-white'
             onClick={fetchShortnedUrl}>
             {sendIcon()}
@@ -72,6 +87,12 @@ export default function Home() {
             Copy Link {sendIcon()}
           </button>
         </div>
+
+        {error ? (
+          <div className="bg-red-600 text-white p-4 rounded-md mt-6">
+            {error}
+          </div>
+        ) : ''}
 
       </div>
     </div>

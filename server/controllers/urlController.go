@@ -34,9 +34,9 @@ func HandleShortenRequest(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, fmt.Sprintf("ERR: invalid request -> %s", err.Error()))
 	}
 
-	if body.Long_url == "" {
-		return c.JSON(http.StatusBadRequest, errors.New("ERR: missing field [url]").Error())
-	}
+  if body.Long_url == ""{
+		return c.JSON(http.StatusBadRequest, fmt.Sprintf("ERR: empty url"))
+  }
 
 	// check if URL is already on db
 	existingUrl, err := repositories.GetURL(body.Long_url)

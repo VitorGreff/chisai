@@ -13,7 +13,7 @@ func main() {
 		Format: "method=${method}, ip=${remote_ip}, uri=${uri}, status=${status}\n",
 	}))
 	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
-		AllowOrigins: []string{"http://localhost:3000"},
+		AllowOrigins: []string{"http://localhost:3000", "http://localhost:3001"},
 		AllowMethods: []string{echo.POST},
 	}))
 	e.GET("/", func(c echo.Context) error { return controllers.GetURLs(c) })
