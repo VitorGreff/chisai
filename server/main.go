@@ -12,6 +12,10 @@ func main() {
 	e.Use(middleware.LoggerWithConfig(middleware.LoggerConfig{
 		Format: "method=${method}, ip=${remote_ip}, uri=${uri}, status=${status}\n",
 	}))
+	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
+		AllowOrigins: []string{"http://localhost:3000"},
+		AllowMethods: []string{echo.POST},
+	}))
 	e.GET("/", func(c echo.Context) error { return controllers.GetURLs(c) })
 	e.DELETE("/", func(c echo.Context) error { return controllers.ClearDatabase(c) })
 	e.POST("/shorten", func(c echo.Context) error { return controllers.HandleShortenRequest(c) })
