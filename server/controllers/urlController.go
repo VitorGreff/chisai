@@ -31,12 +31,12 @@ func HandleShortenRequest(c echo.Context) error {
 	var body Url
 
 	if err := c.Bind(&body); err != nil {
-		return c.JSON(http.StatusBadRequest, fmt.Sprintf("ERR: invalid request -> %s", err.Error()))
+		return c.String(http.StatusBadRequest, fmt.Sprintf("ERR: invalid request -> %s", err.Error()))
 	}
 
-  if body.Long_url == ""{
-		return c.JSON(http.StatusBadRequest, fmt.Sprintf("ERR: empty url"))
-  }
+	if body.Long_url == "" {
+		return c.String(http.StatusBadRequest, fmt.Sprintf("ERR: empty url"))
+	}
 
 	// check if URL is already on db
 	existingUrl, err := repositories.GetURL(body.Long_url)
@@ -48,7 +48,7 @@ func HandleShortenRequest(c echo.Context) error {
 
 	newUrl, err := repositories.SaveURLs(body.Long_url, shortnedUrl)
 	if err != nil {
-		return c.JSON(http.StatusInternalServerError, fmt.Errorf("ERR: failed to persist data -> %s", err.Error()))
+		return c.String(http.StatusInternalServerError, fmt.Sprintf("ERR: failed to persist data -> %s", err.Error()))
 	}
 
 	return c.JSON(http.StatusOK, newUrl)

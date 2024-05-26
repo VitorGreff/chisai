@@ -1,7 +1,7 @@
 'use client'
 
 import { Edu_SA_Beginner, Roboto } from 'next/font/google'
-import { sendIcon } from './icons/Icons';
+import { sendIcon, copyIcon } from './icons/Icons';
 import { useState } from 'react'
 
 const edu = Edu_SA_Beginner({ subsets: ['latin'] })
@@ -22,7 +22,7 @@ export default function Home() {
         body: JSON.stringify({ url: longURL })
       })
 
-      if (!response.ok){
+      if (!response.ok) {
         const errorText = await response.text()
         throw new Error(errorText)
       }
@@ -44,15 +44,20 @@ export default function Home() {
     setLongURL(e.target.value)
   }
 
+  const enterKeySubmit = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      fetchShortnedUrl()
+    }
+  }
+
   return (
     <div className="flex flex-col h-screen items-center p-2">
-
-      <span className={`text-white text-8xl ${edu.className} justify-start p-6 mb-14`}>
-        Chisai - 小さい
+      <span className={`text-white text-8xl ${edu.className} mt-8`}>
+        Chisai 小さい
       </span>
 
-      <div className='h-full flex flex-col justify-center'>
-        <span className={`text-white text-6xl ${roboto.className} mb-10`}>
+      <div className='h-full flex flex-col mt-44'>
+        <span className={`text-white text-6xl ${roboto.className} mb-12`}>
           Your minimalistic URL shortner.
         </span>
 
@@ -60,6 +65,8 @@ export default function Home() {
           <input type="text" name="urlInput" id="1" placeholder=' Insert your URL here'
             className='bg-zinc-800 w-[85%] p-5 border border-gray-400 rounded-md text-white hover:border-white'
             onChange={handleInput}
+            onKeyDown={enterKeySubmit}
+            autoComplete='off'
           >
           </input>
           <button
@@ -70,8 +77,8 @@ export default function Home() {
           </button>
         </div>
 
-        <div className='flex gap-4'>
-          <div className='bg-zinc-800 w-[75%] p-5 border border-gray-400 rounded-md text-white'>
+        <div className='flex gap-4 mb-8'>
+          <div className='bg-zinc-800 w-[75%] p-5 border border-gray-400 rounded-md text-white hover:border-white'>
             {shortUrl ? (
               <a href={shortUrl} target="_blank" rel="noopener noreferrer" className='text-blue-200 hover:underline'>
                 {shortUrl}
@@ -82,14 +89,19 @@ export default function Home() {
           </div>
 
           <button
-            className='flex items-center justify-center bg-zinc-800 w-[25%] p-5 border border-gray-400 rounded-md text-white
-            hover:border-white gap-2'>
-            Copy Link {sendIcon()}
+            className='flex justify-center items-center bg-zinc-800 w-[25%] p-5 border border-gray-400 rounded-md text-white
+            hover:border-white gap-2'
+            onClick={() => { navigator.clipboard.writeText(shortUrl) }}
+          >
+            <span className='hidden sm:flex'>
+              Copy Link
+            </span>
+            {copyIcon()}
           </button>
         </div>
 
         {error ? (
-          <div className="bg-red-600 text-white p-4 rounded-md mt-6">
+          <div className="bg-red-600 text-white p-4 rounded-md">
             {error}
           </div>
         ) : ''}
