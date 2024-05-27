@@ -11,7 +11,7 @@ Chisai is a minimalistic url shortner.
     - Postgres
 
 ### How to run the project
-First things first, you'll need to create a file named '.ENV', at root directory, with the following format:
+First things first, you'll need to create a file named '.env', at root directory, with the following format:
 ```.env
 POSTGRES_USER=<your_user>
 POSTGRES_PASSWORD=<your_password>
