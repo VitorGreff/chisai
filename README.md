@@ -15,7 +15,7 @@ First things first, you'll need to create a file named '.env', at root directory
 ```.env
 POSTGRES_USER=<your_user>
 POSTGRES_PASSWORD=<your_password>
-POSTGRES_PORT=<running_port>
+POSTGRES_PORT=<db_port>
 POSTGRES_DB_NAME=<db_name>
 ```
 Then, you should be able to run the backend by going to the server directory and running:
