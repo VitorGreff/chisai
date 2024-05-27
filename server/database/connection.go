@@ -10,7 +10,7 @@ import (
 )
 
 func StartConnection(ctx context.Context) (*pgx.Conn, error) {
-	err := godotenv.Load("../.ENV")
+	err := godotenv.Load("../.env")
 	if err != nil {
 		return nil, fmt.Errorf("Unable to get environment variables")
 	}
