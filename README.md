@@ -1,4 +1,4 @@
-## Chisai
+## Chisai 小さい
 Chisai is a minimalist url shortner.
 
 ### Stack
@@ -21,3 +21,4 @@ After that's done, run the client at the root directory by typing:
 npm instal # install the local node dependencies
 npm run dev
 ```
+![chisai](https://github.com/VitorGreff/chisai/assets/73392743/a9010932-3be3-4f8d-8828-7689b3b3deca)
