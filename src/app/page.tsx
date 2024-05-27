@@ -52,7 +52,7 @@ export default function Home() {
 
   return (
     <div className="flex flex-col h-screen items-center p-2">
-      <span className={`text-white text-8xl ${edu.className} mt-8`}>
+      <span className={`text-white text-8xl ${edu.className} mt-16`}>
         Chisai 小さい
       </span>
 
@@ -66,8 +66,7 @@ export default function Home() {
             className='bg-zinc-800 w-[85%] p-5 border border-gray-400 rounded-md text-white hover:border-white'
             onChange={handleInput}
             onKeyDown={enterKeySubmit}
-            autoComplete='off'
-          >
+            autoComplete='off'>
           </input>
           <button
             className='flex items-center justify-center bg-zinc-800 w-[15%] p-5 border border-gray-400 rounded-md text-white
@@ -91,8 +90,7 @@ export default function Home() {
           <button
             className='flex justify-center items-center bg-zinc-800 w-[25%] p-5 border border-gray-400 rounded-md text-white
             hover:border-white gap-2'
-            onClick={() => { navigator.clipboard.writeText(shortUrl) }}
-          >
+            onClick={() => { navigator.clipboard.writeText(shortUrl) }}>
             <span className='hidden sm:flex'>
               Copy Link
             </span>
