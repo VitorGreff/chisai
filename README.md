@@ -1,4 +1,4 @@
-## Chisai
+## Chisai 小さい
 Chisai is a minimalist url shortner.
 
 ### Stack
