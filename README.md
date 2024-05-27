@@ -26,7 +26,7 @@ go run main.go
 ```
 After that's done, run the client at the root directory by typing:
 ```bash
-npm instal # install the local node dependencies
+npm install # install the local node dependencies
 npm run dev
 ```
 ![chisai](https://github.com/VitorGreff/chisai/assets/73392743/08adbef0-f3a2-4f01-94ab-8368fa08f99a)
