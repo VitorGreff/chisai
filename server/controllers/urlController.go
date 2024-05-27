@@ -21,7 +21,7 @@ func GetURLs(c echo.Context) error {
 	}
 
 	if len(urls) == 0 {
-		return c.JSON(http.StatusOK, fmt.Sprintf("No URL registered"))
+		return c.JSON(http.StatusOK, "No URL registered")
 	}
 
 	return c.JSON(http.StatusOK, urls)
@@ -35,7 +35,7 @@ func HandleShortenRequest(c echo.Context) error {
 	}
 
 	if body.Long_url == "" {
-		return c.String(http.StatusBadRequest, fmt.Sprintf("ERR: empty url"))
+		return c.String(http.StatusBadRequest, "ERR: empty url")
 	}
 
 	// check if URL is already on db
