@@ -58,7 +58,7 @@ export default function Home() {
 
       <div className='h-full flex flex-col mt-44'>
         <span className={`text-white text-6xl ${roboto.className} mb-12`}>
-          Your minimalistic URL shortner.
+          Your minimalistic URL shortener.
         </span>
 
         <div className='flex gap-4 mb-8'>

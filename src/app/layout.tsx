@@ -6,7 +6,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Chisai",
-  description: "URL shortner",
+  description: "URL shortener",
 };
 
 export default function RootLayout({

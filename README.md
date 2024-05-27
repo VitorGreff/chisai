@@ -1,5 +1,5 @@
 ## Chisai 小さい
-Chisai is a minimalistic url shortner.
+Chisai is a minimalistic url shortener.
 
 ### Stack
 - NextJs for the client side
@@ -29,4 +29,4 @@ After that's done, run the client at the root directory by typing:
 npm install # install the local node dependencies
 npm run dev
 ```
-![chisai](https://github.com/VitorGreff/chisai/assets/73392743/08adbef0-f3a2-4f01-94ab-8368fa08f99a)
+![chisai](https://github.com/VitorGreff/chisai/assets/73392743/9c598c48-9355-408f-ba3f-807a195cc3fe)
